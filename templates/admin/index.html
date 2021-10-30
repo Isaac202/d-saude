@@ -55,7 +55,75 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    ...
+                    <form id="novoagendamento" action="{% url 'home' %}" method="post">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col">
+                                <label for="">Proficional:</label>
+                                <select type="text" class="form-control" placeholder="First name" aria-label="First name">
+                                    <option value="1">Nome do proficional...</option>
+                                </select>
+                            </div>
+                            <div class="col">
+                                <label for="">Paciente:</label>
+                                <select type="text" class="form-control" placeholder="First name" aria-label="First name">
+                                    <option value="1">Nome do paciente...</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
+                                <label for="">Email do proficional:</label>
+                                <select type="text" class="form-control" placeholder="First name" aria-label="First name">
+                                    <option value="1">Nome do proficional...</option>
+                                </select>
+                            </div>
+                            <div class="col">
+                                <label for="">Email do paciente:</label>
+                                <select type="text" class="form-control" placeholder="First name" aria-label="First name">
+                                    <option value="1">Nome do paciente...</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <label for="">Data:</label>
+                            <input type="date" class="form-control" aria-label="First name">
+                        </div>
+                        <div class="col">
+                            <label for="">Hora:</label>
+                            <input type="time" class="form-control" aria-label="First name">
+                        </div>
+                        <div class="col">
+                            <label for="">Status:</label>
+                            <select type="text" class="form-control" placeholder="First name" aria-label="First name">
+                                <option value="1">Confirmado</option>
+                                <option value="1">A confirmar</option>
+                            </select>
+                        </div><br>
+                        <input type="submit" class="btn btn-primary" value="Salvar" />
+                    </form>
+                    <script src="{% static 'assets/js/jquery.js' %}"></script>
+                    <script>
+                        $('#novoagendamento').submit(function(e) {
+                            e.preventDefault();
+
+                            $.ajax({
+                                url: "{% url 'home' %}",
+                                method: 'POST',
+                                data: $(this).serialize(),
+                                success: function(resp) {
+                                    if (resp.status == 1) {
+                                        alert("Data successfully saved", 'success')
+                                            /*setTimeout(function() {
+                                                location.reload()
+                                            }, 1500)*/
+                                    }
+                                }
+                            })
+                        })
+                    </script>
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
@@ -102,53 +170,31 @@
                     </tr>
                 </thead>
                 <tbody>
-
+                    {% if order %} {% for or in order %}
                     <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td><strong>Nome:</strong> Isaac de Oliveira dos Santos. <br> <strong>E-mail:</strong> isaac@teste.com
+                        <th scope="row">{{or.id}}</th>
+                        <td>{{or.data}}</td>
+                        <td><strong>Nome:</strong>{{or.proficional}}. <br> <strong>E-mail:</strong>{{or.email_proficional}}
                         </td>
-                        <td>@mdo mdo mdo mdo</td>
-                        <td class="td_status" style="color:#dc3545;">Otto</td>
-                        <td>
-                            <a href="#" class="btn btn-primary btn_atualizar" data-bs-toggle="modal" data-bs-target="#atualizar">Atualizar</a>
-                            <a href="#" class="btn btn-danger">Apagar</a>
+                        <td><strong>Nome:</strong>{{or.paciente}}. <br> <strong>E-mail:</strong>{{or.email_paciente}}
                         </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                        <td class="td_status" style="color:#ffc107;">Thornton</td>
-                        <td>
-                            <a href="#" class="btn btn-primary btn_atualizar" data-bs-toggle="modal" data-bs-target="#atualizar">Atualizar</a>
-                            <a href="#" class="btn btn-danger">Apagar</a>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
+                        {% if or.status == 'Confirmado' %}
                         <td class="td_status" style="color:#198754;">Thornton</td>
-                        <td>
-                            <a href="#" class="btn btn-primary btn_atualizar" data-bs-toggle="modal" data-bs-target="#atualizar">Atualizar</a>
-                            <a href="#" class="btn btn-danger">Apagar</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
+                        {% endif %} {% if or.status == 'Finalizado' %}
                         <td class="td_status" style="color:#0d6efd;">Thornton</td>
+                        {% endif %} {% if or.status == 'A confirmar' %}
+                        <td class="td_status" style="color:#ffc107;">Thornton</td>
+                        {% endif %} {% if or.status == 'Cancelado' %}
+                        <td class="td_status" style="color:#dc3545;">Otto</td>
+                        {% endif %}
+
                         <td>
                             <a href="#" class="btn btn-primary btn_atualizar" data-bs-toggle="modal" data-bs-target="#atualizar">Atualizar</a>
                             <a href="#" class="btn btn-danger">Apagar</a>
                         </td>
                     </tr>
+
+                    {% endfor %} {% endif %}
 
                 </tbody>
             </table>

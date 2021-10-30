@@ -29,7 +29,10 @@ def home(request):
     #empresa = usere[0]['empresa']
     #print(user, )
     order = Orden.objects.all() 
-    
+    if request.method == "POST":
+        print(request.POST)
+        return JsonResponse({'status':1})
+
     print(request.build_absolute_uri())   
     return render(request,'admin/index.html',{'order':order})
 

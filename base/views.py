@@ -1,27 +1,38 @@
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate
 from django.http import JsonResponse
-from django.shortcuts import render
 from base.models import Orden, Usuarios, Empresa
-
+from django.views.generic import View, TemplateView, FormView, ListView, DeleteView
+from django.shortcuts import render, redirect
+from django.contrib.auth import login, logout, get_user_model
 # Create your views here.
 def empresa(request):
     emp = Empresa.objects.all()
-    print(emp)
     return render(request,'admin/empresa.html',{'empresa':emp})
 
-def empresa_add(request):
+def create_user_admin(request):
     if request.method == "POST":
         nome = request.POST['nome']
         email = request.POST['email']
         cpf = request.POST['cpf']
         cnpj = request.POST['cnpj']
-        print(cpf,cnpj)
-        empresa = Empresa(nome=nome,email=email,cnpj=cnpj,cpf=cpf, criado_por= request.user.id)
-        print(empresa)
-        empresa.save()
-        return JsonResponse({'status':1})
+        senha = request.POST['senha']
+        user = Usuarios(nome_completo=nome,username=email, email_user=email, cnpj=cnpj,cpf=cpf, password=senha, criado_por = email)
+        print(user)
+        user.save()
+        return redirect('/dashboard/login/')
     
-    return render(request,'admin/empresa_add.html')
+    return render(request,'admin/usuario_add.html')
+
+def login_user(request):
+    if request.method == "POST":
+        email = request.POST['email']
+        senha = request.POST['password']
+        print(email, senha)
+        authenticate(username=email, password=senha)
+       
+        return redirect('/dashboard/')
+    return render(request,'admin/login.html')
 
 def home(request):
     #user = request.user.id
@@ -39,15 +50,6 @@ def home(request):
 def create_order(request):
     
     return render(request,'admin/index.html')
-
-def create_user(request):
-    
-    return render(request,'admin/usuario.html')
-
-def create_user_admin(request):
-    
-    return render(request,'admin/usuario.html')
-
 
 def agenda(request):
     

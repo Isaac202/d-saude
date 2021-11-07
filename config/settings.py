@@ -67,11 +67,13 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+        'ENGINE':'django.db.backends.postgresql',
+        'NAME': 'd-saude',
+        'USER':'postgres',
+        'PASSWORD':'1234',
+        'HOST':'localhost'
+    },
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators

@@ -3,11 +3,79 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Novo Agendamento</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Novo Usuario</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                ...
+                <form id="novoagendamento" action="{% url 'home' %}" method="post">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col">
+                            <label for="">Proficional:</label>
+                            <select type="text" class="form-control" placeholder="First name" aria-label="First name">
+                                <option value="1">Nome do proficional...</option>
+                            </select>
+                        </div>
+                        <div class="col">
+                            <label for="">Paciente:</label>
+                            <select type="text" class="form-control" placeholder="First name" aria-label="First name">
+                                <option value="1">Nome do paciente...</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <label for="">Email do proficional:</label>
+                            <select type="text" class="form-control" placeholder="First name" aria-label="First name">
+                                <option value="1">Nome do proficional...</option>
+                            </select>
+                        </div>
+                        <div class="col">
+                            <label for="">Email do paciente:</label>
+                            <select type="text" class="form-control" placeholder="First name" aria-label="First name">
+                                <option value="1">Nome do paciente...</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <label for="">Data:</label>
+                        <input type="date" class="form-control" aria-label="First name">
+                    </div>
+                    <div class="col">
+                        <label for="">Hora:</label>
+                        <input type="time" class="form-control" aria-label="First name">
+                    </div>
+                    <div class="col">
+                        <label for="">Status:</label>
+                        <select type="text" class="form-control" placeholder="First name" aria-label="First name">
+                            <option value="1">Confirmado</option>
+                            <option value="1">A confirmar</option>
+                        </select>
+                    </div><br>
+                    <input type="submit" class="btn btn-primary" value="Salvar" />
+                </form>
+                <script src="{% static 'assets/js/jquery.js' %}"></script>
+                <script>
+                    $('#novoagendamento').submit(function(e) {
+                        e.preventDefault();
+
+                        $.ajax({
+                            url: "{% url 'home' %}",
+                            method: 'POST',
+                            data: $(this).serialize(),
+                            success: function(resp) {
+                                if (resp.status == 1) {
+                                    alert("Data successfully saved", 'success')
+                                        /*setTimeout(function() {
+                                            location.reload()
+                                        }, 1500)*/
+                                }
+                            }
+                        })
+                    })
+                </script>
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
@@ -20,7 +88,7 @@
 
 <div class="card mb-4">
     <div class="card-header">
-        <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal2"> <i class="fas fa-plus me-1"></i>Novo Agendamento</a>
+        <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal2"> <i class="fas fa-plus me-1"></i> <i class="fas fa-user"></i> Novo Usuario</a>
     </div>
     <div class="card-body">
         <table id="datatablesSimple" class="table">

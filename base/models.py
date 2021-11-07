@@ -25,16 +25,35 @@ class Endereco(models.Model):
     empresa = models.ForeignKey('Empresa', on_delete=models.CASCADE, blank=True, null=True)
     criado_por = models.CharField(max_length=10, blank=True, null=True)
 
+
 class Usuarios(User):
+    nome_completo = models.CharField(max_length=100, null=True, blank=True)
+    email_user = models.CharField(max_length=200, blank=True, null=True, unique=True)
+    cpf = models.CharField(max_length=18, null=True, blank=True, unique=True)
+    cnpj = models.CharField(max_length=18, null=True, blank=True, unique=True)
+    telefone = models.CharField(max_length=18, null=True, blank=True)
+    whatsapp = models.CharField(max_length=18, null=True, blank=True)
+    logradouro = models.CharField(max_length=60, null=True, blank=True)
+    numero = models.IntegerField(null=True, blank=True)
+    bairro = models.CharField(max_length=30, null=True, blank=True)
+    complemento = models.CharField(max_length=100, null=True, blank=True)
+    cep = models.CharField(max_length=18, null=True, blank=True)
+    estado = models.CharField(max_length=20, null=True, blank=True)
+    cidade = models.CharField(max_length=30, null=True, blank=True)
+    codigo_ibge = models.IntegerField(null=True, blank=True)
+    cnpj_empresa = models.CharField(max_length=20, blank=True, null=True)
     imagem = models.ImageField(upload_to='imagens/%d/%m/%Y/',null=True, blank=True)
     status_user = models.CharField(max_length=100, blank=True)
-    endereco_id = models.ForeignKey('Endereco', on_delete=models.CASCADE, blank=True, null=True)
-    empresa_id = models.ForeignKey('Empresa', on_delete=models.CASCADE, blank=True, null=True)
-    criado_por = models.CharField(max_length=10, blank=True, null=True)
+    empresa_id = models.CharField(max_length=15, blank=True, null=True)
+    criado_por = models.CharField(max_length=255, blank=True, null=True)
     tipo_user = models.CharField(max_length=50, blank=True, null=True)
+    
     @mark_safe
     def icone(self):
         return f'<img width="30px" src="{self.imagem.url}">'
+    
+    #empresa_id server como filtro principal do sistema
+    #criado_por serve para filtrar as ações dos usiarios no sistema, para que so ele veja o que ele fez
 
 class Servico(models.Model):
     nome = models.CharField(max_length=255, blank=True, null=True)

@@ -1,0 +1,82 @@
+{%extends 'admin/base.html'%} {% block content %} {% load static %}
+
+<div class="card-body">
+    <form id="manage-user" method="POST" action="{% url 'edit_user_admin' %}">
+        {% csrf_token %} {% for i in usuario%}
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <div class="form-floating mb-3 mb-md-0">
+                    <input class="form-control" id="inputFirstName" type="text" placeholder="Digite o nome da sua empresa" value="{{ i.nome_completo}}" name="nome" />
+                    <label for="inputFirstName">Nome e Sobrenome</label>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-floating">
+                    <input class="form-control" id="inputLastName" type="text" placeholder="Enter your last name" name="cpf" value="{{ i.cpf}}" />
+                    <label for="inputLastName">CPF</label>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <div class="form-floating mb-3 mb-md-0">
+                    <input value="{{ i.email_user}}" class="form-control" id="inputFirstName" type="email" name="email" placeholder="Digite o nome da sua empresa" />
+                    <label for="inputFirstName">E-mail</label>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-floating">
+                    <input value="{{ i.cnpj}}" class="form-control" id="inputLastName" type="text" name="cnpj" placeholder="Enter your last name" />
+                    <label for="inputLastName">CNPJ</label>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <div class="form-floating mb-3 mb-md-0">
+                    <input class="form-control" id="inputFirstName" type="password" name="senha" placeholder="Digite o nome da sua empresa" />
+                    <label for="inputFirstName">Senha...</label>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-floating">
+                    <input class="form-control" id="inputLastName" type="password" name="senha2" placeholder="Enter your last name" />
+                    <label for="inputLastName">Repita sua senha...</label>
+                </div>
+            </div>
+        </div>
+        <div class="mt-4 mb-0">
+            <div class="d-grid"><button class="btn btn-primary btn-block">Salvar</button></div>
+        </div>
+        {% endfor %}
+    </form>
+</div>
+
+<script src="{% static 'assets/js/jquery.js' %}"></script>
+<script>
+    $('#novoagendamento').submit(function(e) {
+        e.preventDefault();
+
+        $.ajax({
+            url: "{% url 'edit_user_admin' %}",
+            method: 'POST',
+            data: $(this).serialize(),
+            success: function(resp) {
+                if (resp.status == 1) {
+                    alert("Data successfully saved", 'success')
+                        /*setTimeout(function() {
+                            location.reload()
+                        }, 1500)*/
+                }
+            }
+        })
+    })
+</script>
+
+
+
+
+
+{%endblock%}

@@ -3,11 +3,44 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Novo Agendamento</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Nova Especialidade</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                ...
+                <form id="novoagendamento" enctype="multipart/form-data" action="{% url 'especialidade' %}" method="post">
+                    {% csrf_token %}
+                    <div class="col">
+                        <label for="">Nome:</label>
+                        <input type="text" class="form-control" aria-label="First name">
+                    </div>
+                    <div class="col">
+                        <label for="">Imagen:</label>
+                        <input type="file" class="form-control" aria-label="First name">
+                    </div>
+                    <br>
+                    <input type="submit" class="btn btn-primary" value="Salvar" />
+                </form>
+                <script src="{% static 'assets/js/jquery.js' %}"></script>
+                <script>
+                    $('#novoagendamento').submit(function(e) {
+                        e.preventDefault();
+
+                        $.ajax({
+                            url: "{% url 'especialidade' %}",
+                            method: 'POST',
+                            data: $(this).serialize(),
+                            success: function(resp) {
+                                if (resp.status == 1) {
+                                    alert("Data successfully saved", 'success')
+                                        /*setTimeout(function() {
+                                            location.reload()
+                                        }, 1500)*/
+                                }
+                            }
+                        })
+                    })
+                </script>
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
@@ -20,7 +53,7 @@
 
 <div class="card mb-4">
     <div class="card-header">
-        <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal2"> <i class="fas fa-plus me-1"></i>Novo Agendamento</a>
+        <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal2"> <i class="fas fa-plus me-1"></i>Nova Especialidade</a>
     </div>
     <div class="card-body">
         <table id="datatablesSimple" class="table">

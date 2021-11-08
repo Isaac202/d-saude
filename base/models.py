@@ -43,10 +43,10 @@ class Usuarios(User):
     codigo_ibge = models.IntegerField(null=True, blank=True)
     cnpj_empresa = models.CharField(max_length=20, blank=True, null=True)
     imagem = models.ImageField(upload_to='imagens/%d/%m/%Y/',null=True, blank=True)
-    status_user = models.CharField(max_length=100, blank=True)
+    especialidade_user = models.CharField(max_length=100, blank=True)
     empresa_id = models.CharField(max_length=15, blank=True, null=True)
     criado_por = models.CharField(max_length=255, blank=True, null=True)
-    tipo_user = models.CharField(max_length=50, blank=True, null=True)
+    tipo_user = models.CharField(max_length=2, blank=True, null=True)
     
     @mark_safe
     def icone(self):
@@ -58,7 +58,7 @@ class Usuarios(User):
 class Servico(models.Model):
     nome = models.CharField(max_length=255, blank=True, null=True)
     imagem = models.ImageField(upload_to='imagens/%d/%m/%Y/',null=True, blank=True)
-    empresa = models.ForeignKey('Empresa', on_delete=models.CASCADE, blank=True, null=True)
+    empresa = models.CharField(max_length=255, blank=True,null=True)
     criado_por = models.CharField(max_length=10, blank=True, null=True)
     
 

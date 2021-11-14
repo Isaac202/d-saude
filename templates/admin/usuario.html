@@ -7,61 +7,63 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="novoagendamento" action="{% url 'home' %}" method="post">
+                <form id="manage-user" method="POST" action="{% url 'usuario_add' %}">
                     {% csrf_token %}
-                    <div class="row">
-                        <div class="col">
-                            <label for="">Proficional:</label>
-                            <select type="text" class="form-control" placeholder="First name" aria-label="First name">
-                                <option value="1">Nome do proficional...</option>
-                            </select>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="form-floating mb-3 mb-md-0">
+                                <input class="form-control" id="inputFirstName" type="text" placeholder="Digite o nome da sua empresa" name="nome" />
+                                <label for="inputFirstName">Nome e Sobrenome</label>
+                            </div>
                         </div>
-                        <div class="col">
-                            <label for="">Paciente:</label>
-                            <select type="text" class="form-control" placeholder="First name" aria-label="First name">
-                                <option value="1">Nome do paciente...</option>
-                            </select>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input class="form-control" id="inputLastName" type="text" placeholder="Enter your last name" name="cpf" />
+                                <label for="inputLastName">CPF</label>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="col">
-                            <label for="">Email do proficional:</label>
-                            <select type="text" class="form-control" placeholder="First name" aria-label="First name">
-                                <option value="1">Nome do proficional...</option>
-                            </select>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="form-floating mb-3 mb-md-0">
+                                <input class="form-control" id="inputFirstName" type="email" name="email" placeholder="Digite o nome da sua empresa" />
+                                <label for="inputFirstName">E-mail</label>
+                            </div>
                         </div>
-                        <div class="col">
-                            <label for="">Email do paciente:</label>
-                            <select type="text" class="form-control" placeholder="First name" aria-label="First name">
-                                <option value="1">Nome do paciente...</option>
-                            </select>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input class="form-control" id="inputLastName" type="text" name="cnpj" placeholder="Enter your last name" />
+                                <label for="inputLastName">CNPJ</label>
+                            </div>
                         </div>
                     </div>
-                    <div class="col">
-                        <label for="">Data:</label>
-                        <input type="date" class="form-control" aria-label="First name">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="form-floating mb-3 mb-md-0">
+                                <input class="form-control" id="inputFirstName" type="password" name="senha" placeholder="Digite o nome da sua empresa" />
+                                <label for="inputFirstName">Senha...</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input class="form-control" id="inputLastName" type="password" name="senha2" placeholder="Enter your last name" />
+                                <label for="inputLastName">Repita sua senha...</label>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col">
-                        <label for="">Hora:</label>
-                        <input type="time" class="form-control" aria-label="First name">
+                    <div class="mt-4 mb-0">
+                        <div class="d-grid"><button class="btn btn-primary btn-block">Criar Usuario</button></div>
                     </div>
-                    <div class="col">
-                        <label for="">Status:</label>
-                        <select type="text" class="form-control" placeholder="First name" aria-label="First name">
-                            <option value="1">Confirmado</option>
-                            <option value="1">A confirmar</option>
-                        </select>
-                    </div><br>
-                    <input type="submit" class="btn btn-primary" value="Salvar" />
                 </form>
                 <script src="{% static 'assets/js/jquery.js' %}"></script>
                 <script>
-                    $('#novoagendamento').submit(function(e) {
+                    $('#manage-user').submit(function(e) {
                         e.preventDefault();
 
                         $.ajax({
-                            url: "{% url 'home' %}",
+                            url: "{% url 'usuario' %}",
                             method: 'POST',
                             data: $(this).serialize(),
                             success: function(resp) {

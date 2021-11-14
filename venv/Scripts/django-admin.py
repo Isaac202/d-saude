@@ -1,4 +1,4 @@
-#!c:\users\isaac de oliveira\documents\g-saude\venv\scripts\python.exe
+#!C:\Users\Isaac de Oliveira\Documents\g-saude\venv\Scripts\python.exe
 # When the django-admin.py deprecation ends, remove this script.
 import warnings
 
